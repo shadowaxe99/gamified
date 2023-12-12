@@ -8,8 +8,8 @@ from flask_caching import Cache
 app = Flask(__name__)
 
 # Configuration for the scalable server environment
-# Replace 'your_database_uri' with your actual database URI
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'actual_database_uri')
+# Ensure the DATABASE_URL is configured
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize caching
@@ -69,7 +69,7 @@ def runServer():
     Run the Flask server.
     """
     # Set the host to '0.0.0.0' to run on the machine's IP address
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+    app.run(host='0.0.0.0', port=int(os.environ['PORT']))
 
 # Check if the script is the main program and run the server
 if __name__ == '__main__':
