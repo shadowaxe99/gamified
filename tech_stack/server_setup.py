@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 # Configuration for the scalable server environment
 # Replace 'your_database_uri' with your actual database URI
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'your_database_uri')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'actual_database_uri')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize SQLAlchemy for ORM
@@ -40,7 +40,8 @@ def setupServer():
     # Create the database tables
     db.create_all()
 
-    # Add additional server setup code here
+    # Add additional server configuration settings here
+    app.config['EXTRA_CONFIG_OPTION'] = 'value'
 
 # Function to run the server
 def runServer():
