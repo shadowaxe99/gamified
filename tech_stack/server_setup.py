@@ -2,6 +2,7 @@
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_caching import Cache
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -10,6 +11,10 @@ app = Flask(__name__)
 # Replace 'your_database_uri' with your actual database URI
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'actual_database_uri')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize caching
+app.config['CACHE_TYPE'] = 'simple'
+cache = Cache(app)
 
 # Initialize SQLAlchemy for ORM
 db = SQLAlchemy(app)
@@ -51,6 +56,8 @@ def setupServer():
     This function initializes the database and creates the required tables.
     """
     # Create the database tables
+    with app.app_context():
+        cache.clear()
     db.create_all()
 
     # Add additional server configuration settings here
