@@ -19,15 +19,10 @@ class SocialSharing:
         :param task_data: dict - Data of the task to be shared
         """
         # Construct the message to be shared
-        message = f"Hey everyone, I just completed a task and earned {calculatePoints(task_data)} points! Check out my progress on the leaderboard!"
+        message = f"Hey everyone, I just completed a task and earned {self.calculate_points(task_data)} points! Check out my progress on the leaderboard!"
         
         # Social media API endpoints (placeholders)
-        api_endpoints = {
-            'facebook': 'https://graph.facebook.com/v9.0/me/feed',
-            'twitter': 'https://api.twitter.com/1.1/statuses/update.json',
-            'instagram': 'https://api.instagram.com/v1/media',
-            # Add other social media platform API endpoints here
-        }
+        api_endpoints = self.api_endpoints
         
         # Check if the platform is supported
         if platform.lower() in api_endpoints:
@@ -41,7 +36,7 @@ class SocialSharing:
             # Check if the post was successful
             if response.status_code == 200:
                 print(f"Successfully shared on {platform}!")
-                updateLeaderboard(self.user_id, calculatePoints(task_data))
+                self.update_leaderboard(self.user_id, self.calculate_points(task_data))
             else:
                 print(f"Failed to share on {platform}. Error: {response.text}")
         else:

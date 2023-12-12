@@ -2,6 +2,8 @@
 import datetime
 import json
 from typing import Dict, Any
+import jsonschema
+from jsonschema import validate
 
 # Define the schema for activity data based on shared dependencies
 activity_data_schema = {
@@ -39,9 +41,10 @@ class ActivityTracker:
 
         :param data: The activity data to validate.
         """
-        # Here you would implement validation logic based on the activity_data_schema
-        # For simplicity, we are assuming the data is always valid
-        pass
+        try:
+            validate(instance=data, schema=activity_data_schema)
+        except jsonschema.exceptions.ValidationError as e:
+            raise ValueError(f"Invalid activity data: {e.message}")
 
     def _write_to_log(self, data: Dict[str, Any]):
         """
