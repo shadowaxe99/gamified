@@ -20,6 +20,11 @@ class Workflow(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     data = db.Column(db.JSON, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    last_updated = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
     # Add additional fields as needed
 
 class User(db.Model):
@@ -28,6 +33,14 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     profile = db.Column(db.JSON, nullable=False)
     # Add additional fields as needed
+
+class Task(db.Model):
+    __tablename__ = 'tasks'
+    id = db.Column(db.Integer, primary_key=True)
+    workflow_id = db.Column(db.Integer, db.ForeignKey('workflows.id'), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    is_complete = db.Column(db.Boolean, default=False, nullable=False)
+    due_date = db.Column(db.DateTime)
 
 # Add additional models as needed
 
